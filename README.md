@@ -7,3 +7,9 @@ In this git repo you'll find a small amount of code I translated from Matlab to 
 + Original code can be found here: http://www.algocare.it/GEM-BALLS/
 + All credit to the original authors of the code and paper describing the gem classifier
 
+I've also added a number of features to this example classifier to show some possible future directions things could be taken. The features added include:
++ Bagging
++ Boosting 
++ Pruning
++ Ensemble creation
++ A toy visualization

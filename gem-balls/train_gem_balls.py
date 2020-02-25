@@ -2,7 +2,7 @@ import numpy as np
 import math
 
 
-def train_gem(X, Y, cp=1, cn=1, supp_cap=1):
+def train_gem(X, Y, cp=1, cn=1, weak=False):
     lab1 = 1
     lab2 = 0
     labs = [1,0]
@@ -34,6 +34,7 @@ def train_gem(X, Y, cp=1, cn=1, supp_cap=1):
 
     classifier = []
     complete = 0
+    weak_complete = False
 
     while complete == 0:
         opp_label = (yc % 2) + 1
@@ -49,7 +50,7 @@ def train_gem(X, Y, cp=1, cn=1, supp_cap=1):
         supp_pos = opp_pos[0:min(c[opp_label-1], opp_pos.shape[0])]
         supps = S[str(opp_label)]
 
-        if c[opp_label-1] > opp_pos.shape[0]:
+        if c[opp_label-1] > opp_pos.shape[0] or weak_complete:
             complete = 1
 
             classifier.append([xc, math.inf, labs[yc-1]])
@@ -69,6 +70,9 @@ def train_gem(X, Y, cp=1, cn=1, supp_cap=1):
             R = R[temp_start+1:len_rl,:]
             L = L[temp_start+1:len_rl]
 
+            if weak:
+                weak_complete = True
+
         S[str(opp_label)] = supps
 
     kp = len(S['1'])
@@ -76,3 +80,38 @@ def train_gem(X, Y, cp=1, cn=1, supp_cap=1):
 
     return [classifier, kp, kn, Np, Nn]
 
+
+def create_gem_ensemble(X, Y, mode="bagged", per_features=1, per_data=1, num_gem=1):
+    if mode == "bagged":
+        classifiers = []
+        for i in range(num_gem):
+            boot_ind = np.random.choice(X.shape[0], size=round(per_data*X.shape[0]))
+            X_boot = X[boot_ind]
+            Y_boot = Y[boot_ind]
+            classifiers.append(train_gem(X_boot, Y_boot)[0])
+
+        return classifiers
+
+    elif mode == "boosted":
+        classifiers = []
+        for i in range(num_gem):
+            boot_ind = np.random.choice(X.shape[0], size=round(per_data*X.shape[0]))
+            col_ind = np.random.choice(X.shape[1], size=round(per_features*X.shape[1]), replace=False)
+
+            X_boot = X[boot_ind[:, None], col_ind]
+            Y_boot = Y[boot_ind]
+
+            temp_classifier = train_gem(X_boot, Y_boot)[0]
+            classifiers.append([temp_classifier, col_ind])
+
+        return classifiers
+
+    elif mode == "weak":
+        classifiers = []
+        for i in range(num_gem):
+            boot_ind = np.random.choice(X.shape[0], size=round(per_data*X.shape[0]))
+            X_boot = X[boot_ind]
+            Y_boot = Y[boot_ind]
+            classifiers.append(train_gem(X_boot, Y_boot, weak=True)[0])
+
+        return classifiers

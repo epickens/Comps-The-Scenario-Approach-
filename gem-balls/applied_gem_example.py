@@ -10,6 +10,7 @@ N=200
 Xtrain = np.subtract(np.random.rand(N, 5), 0.5)
 Ytrain = 1*np.array(np.sum(Xtrain, axis=1) > 0)
 
+"""
 train_results = train_gem_balls.train_gem(Xtrain, Ytrain)
 classifier = train_results[0]
 kp = train_results[1]
@@ -25,17 +26,28 @@ valid_results = validate_gem_balls.validate_gem(kp,kn,Np,Nn,beta,beta)
 
 G_false_negative_rate = valid_results[0]
 G_false_positive_rate = valid_results[1]
-
+"""
 Xtest = np.subtract(np.random.rand(10000, 5), 0.5)
 Ytest_true = 1*np.array(np.sum(Xtest, axis=1) > 0)
-Ytest_pred = use_gem_balls.use_gem(classifier, Xtest)
-
+#Ytest_pred = use_gem_balls.use_gem(classifier, Xtest)
+"""
 tn, fp, fn, tp = confusion_matrix(Ytest_pred, Ytest_true).ravel()
 print(fp/(fp+tn))
 print(fn/(fn+tp))
 print((tp+tn)/(tp+fp+fn+tn))
+"""
 #false_neg_sim = len(np.argwhere(Ytest_true==1 and Ytest_pred==0))/len(np.argwhere(Ytest_true==1))
 #false_pos_sim = len(np.argwhere(Ytest_true==0 and Ytest_pred==1))/len(np.argwhere(Ytest_true==0))
+
+#ensemble = train_gem_balls.create_gem_ensemble(Xtrain, Ytrain, mode="boosted", per_features = 0.6, per_data=0.75, num_gem=100)
+ensemble = train_gem_balls.create_gem_ensemble(Xtrain, Ytrain, mode="weak", per_data=1, num_gem=100)
+
+Ytest_pred_bagged = use_gem_balls.use_gem_ensemble(ensemble, Xtest)#, boosted=True)
+
+tn, fp, fn, tp = confusion_matrix(Ytest_pred_bagged, Ytest_true).ravel()
+print(fp/(fp+tn))
+print(fn/(fn+tp))
+print((tp+tn)/(tp+fp+fn+tn))
 
 print("done")
 exit()
