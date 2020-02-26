@@ -4,10 +4,11 @@ import validate_gem_balls
 import numpy as np
 from sklearn.metrics import confusion_matrix
 import loader
+import tqdm
 
 
 basic_gem_cancer = []
-for i in range(200):
+for i in tqdm(range(200)):
     Xtrain, Xtest, Ytrain, Ytest = loader.load_data('data/names.csv', 'data/breast-cancer-wisconsin.data',
                                                     cols=True, is_wisconsin_bc=True)
 
@@ -28,7 +29,7 @@ np.savetxt("basic_gem_cancer.csv", np.asarray(basic_gem_cancer), delimiter=',')
 print("checkpoint1")
 """
 bagged_gem_cancer = []
-for i in range(200):
+for i in tqdm(range(200)):
     Xtrain, Xtest, Ytrain, Ytest = loader.load_data('data/names.csv', 'data/breast-cancer-wisconsin.data',
                                                     cols=True, is_wisconsin_bc=True)
 
@@ -48,7 +49,7 @@ np.savetxt("bagged_gem_cancer.csv", np.asarray(bagged_gem_cancer), delimiter=','
 print("checkpoint2")
 
 boosted_gem_cancer = []
-for i in range(200):
+for i in tqdm(range(200)):
     Xtrain, Xtest, Ytrain, Ytest = loader.load_data('data/names.csv', 'data/breast-cancer-wisconsin.data',
                                                     cols=True, is_wisconsin_bc=True)
 

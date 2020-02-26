@@ -3,10 +3,11 @@ import use_gem_balls
 import validate_gem_balls
 import numpy as np
 from sklearn.metrics import confusion_matrix
+import tqdm
 
 
 basic_gem_res = []
-for i in range(100):
+for i in tqdm(range(100)):
     N=200
     Xtrain = np.subtract(np.random.rand(N, 5), 0.5)
     Ytrain = 1*np.array(np.sum(Xtrain, axis=1) > 0)
@@ -29,7 +30,7 @@ np.savetxt("basic_gem_res.csv", np.asarray(basic_gem_res), delimiter=',')
 print("checkpoint1")
 
 bagged_gem_res = []
-for i in range(100):
+for i in tqdm(range(100)):
     N=200
     Xtrain = np.subtract(np.random.rand(N, 5), 0.5)
     Ytrain = 1*np.array(np.sum(Xtrain, axis=1) > 0)
@@ -51,7 +52,7 @@ np.savetxt("bagged_gem_res.csv", np.asarray(bagged_gem_res), delimiter=',')
 print("checkpoint2")
 
 boosted_gem_res = []
-for i in range(100):
+for i in tqdm(range(100)):
     N=200
     Xtrain = np.subtract(np.random.rand(N, 5), 0.5)
     Ytrain = 1*np.array(np.sum(Xtrain, axis=1) > 0)
