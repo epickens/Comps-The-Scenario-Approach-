@@ -15,7 +15,25 @@ plt.scatter(Xtrain[:,0], Xtrain[:,1], c=Ytrain, cmap='RdYlBu')
 plt.show()
 
 train_results = train_gem_balls.train_gem(Xtrain, Ytrain)
+#train_results = train_gem_balls.create_gem_ensemble(Xtrain, Ytrain, mode="weak", num_gem=1)
 classifier = train_results[0]
+
+circles = []
+for i in reversed(range(len(classifier))):
+    if classifier[i][2] == 0:
+        circles.append(plt.Circle(classifier[i][0], classifier[i][1], color='#a50026', alpha=1))
+    else:
+        circles.append(plt.Circle(classifier[i][0], classifier[i][1], color='w', alpha=1)) # #313695
+
+
+fig, ax = plt.subplots()
+for circle in circles:
+    ax.add_artist(circle)
+#plt.scatter(Xtrain[:,0], Xtrain[:,1], c=Ytrain, cmap='RdYlBu')
+plt.xlim(-0.5, 0.5)
+plt.ylim(-0.5, 0.5)
+plt.show()
+plt.close()
 
 circles = []
 for i in reversed(range(len(classifier))):
@@ -32,5 +50,7 @@ for circle in circles:
 plt.xlim(-0.5, 0.5)
 plt.ylim(-0.5, 0.5)
 plt.show()
+
+
 print("done")
 exit()
