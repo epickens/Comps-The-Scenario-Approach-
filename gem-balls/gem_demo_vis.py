@@ -23,7 +23,7 @@ for i in reversed(range(len(classifier))):
     if classifier[i][2] == 0:
         circles.append(plt.Circle(classifier[i][0], classifier[i][1], color='#a50026', alpha=1))
     else:
-        circles.append(plt.Circle(classifier[i][0], classifier[i][1], color='w', alpha=1)) # #313695
+        circles.append(plt.Circle(classifier[i][0], classifier[i][1], color='#313695', alpha=1)) # #313695
 
 
 fig, ax = plt.subplots()
@@ -40,7 +40,7 @@ for i in reversed(range(len(classifier))):
     if classifier[i][2] == 0:
         circles.append(plt.Circle(classifier[i][0], classifier[i][1], color='#a50026', alpha=0.5))
     else:
-        circles.append(plt.Circle(classifier[i][0], classifier[i][1], color='w', alpha=0.5)) # #313695
+        circles.append(plt.Circle(classifier[i][0], classifier[i][1], color='#313695', alpha=0.5)) # #313695
 
 
 fig, ax = plt.subplots()
