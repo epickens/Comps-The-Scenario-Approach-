@@ -19,7 +19,7 @@ train_results = train_gem_balls.train_gem(Xtrain, Ytrain)
 classifier = train_results[0]
 
 circles = []
-for i in reversed(range(len(classifier))):
+for i in reversed(range(2)):#reversed(range(len(classifier))):
     if classifier[i][2] == 0:
         circles.append(plt.Circle(classifier[i][0], classifier[i][1], color='#a50026', alpha=1))
     else:
@@ -36,7 +36,7 @@ plt.show()
 plt.close()
 
 circles = []
-for i in reversed(range(len(classifier))):
+for i in reversed(range(2)):#reversed(range(len(classifier))):
     if classifier[i][2] == 0:
         circles.append(plt.Circle(classifier[i][0], classifier[i][1], color='#a50026', alpha=0.5))
     else:
