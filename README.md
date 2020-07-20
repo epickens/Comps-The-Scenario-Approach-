@@ -13,3 +13,5 @@ I've also added a number of features to this example classifier to show some pos
 + Pruning
 + Ensemble creation
 + A toy visualization
+
+A writeup can be found here: https://epickens.github.io/content.html
